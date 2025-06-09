@@ -1,0 +1,2 @@
+# Use native dungeon features? If disabled, the dungeon features included with this mod will not be registered and only dungeon features from other mods will be generated.
+dungeonsplus.use_native (Use native dungeon features?) bool true
