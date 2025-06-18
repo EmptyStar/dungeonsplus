@@ -9,7 +9,7 @@ local vs = vector.subtract
 return {
   name = "Liquid Pool",
   surfaces = "floor",
-  weight = 3,
+  weight = 2,
   conditions = {
     room = {
       function(room)
