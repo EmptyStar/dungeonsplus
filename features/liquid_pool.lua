@@ -17,7 +17,7 @@ return {
         return size.x > 5 and size.z > 5
       end,
       function(room)
-        return room.enclosed
+        return room.enclosed.x and room.enclosed.y and room.enclosed.z
       end,
       function(room)
         return room.biome and room.heat and room.heat < 85 and room.humidity > 15

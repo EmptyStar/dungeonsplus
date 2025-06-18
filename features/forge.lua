@@ -20,8 +20,11 @@ return {
         return room.pos.y < 250
       end,
       function(room)
+        return room.enclosed.y
+      end,
+      function(room)
         local size = vs(room.max,room.min)
-        return size.x > 7 and size.z > 7
+        return size.x > 7 and size.y > 2 and size.z > 7
       end,
     },
     mods = {
