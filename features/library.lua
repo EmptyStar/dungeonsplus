@@ -57,7 +57,7 @@ return {
         local size = vs(room.max,room.min)
         return size.x > 5
           and size.z > 5
-          and size.y > 2
+          and size.y > 3
           and room.pos.x - room.min.x > 2
           and room.pos.z - room.min.z > 2
           and room.max.x - room.pos.x > 2
