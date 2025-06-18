@@ -26,14 +26,15 @@ return {
   },
   generate = function(data)
     local room = data.room
-    local ystride = data.va.ystride
-    local zstride = data.va.zstride
+    local va = data.va
+    local ystride = va.ystride
+    local zstride = va.zstride
     local size = vs(room.max,room.min)
-    local pos = data.va:indexp(room.pos) + (size.y - 1) * ystride
+    local pos = va:indexp(room.pos) + (size.y - 1) * ystride
     local vdata = data.vdata
     local vparam2 = data.vparam2
 
-    if vdata[pos + size.y] == cids.air then
+    if vdata[pos] == cids.air then
       return false -- cannot place if ceiling doesn't actually exist
     end
 
