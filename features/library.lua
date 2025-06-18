@@ -68,6 +68,9 @@ return {
       function(mod,path)
         return mod == "default" and path
       end,
+      function(mod,path)
+        return mod == "stairs" and path
+      end,
     },
   },
   generate = function(data)
