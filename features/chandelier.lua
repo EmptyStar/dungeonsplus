@@ -1,4 +1,5 @@
 local cids = {
+  air = core.CONTENT_AIR,
   fence = core.get_content_id("default:fence_wood"),
   wood = core.get_content_id("default:wood"),
   torch = core.get_content_id("default:torch"),
