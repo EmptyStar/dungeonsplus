@@ -55,15 +55,15 @@ return {
     local liquid = (function()
       local lava_chance = 10
       if room.heat > 85 then
-        lava_chance = lava_chance + 15
+        lava_chance = lava_chance + 25
       end
 
       if room.humidity < 15 then
-        lava_chance = lava_chance + 15
+        lava_chance = lava_chance + 25
       end
 
       if room.biome:find("desert") then
-        lava_chance = lava_chance + 15
+        lava_chance = lava_chance + 25
       end
 
       return pcgr:next(1,100) < lava_chance and cids.lava_source or cids.water_source
