@@ -20,7 +20,7 @@ return {
         return room.enclosed.x and room.enclosed.y and room.enclosed.z
       end,
       function(room)
-        return room.biome and room.heat and room.heat < 85 and room.humidity > 15
+        return room.biome and room.heat
       end,
     },
     mods = {
