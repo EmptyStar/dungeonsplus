@@ -172,7 +172,11 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
       pos = dungeon,
       min = vz(),
       max = vz(),
-      enclosed = true,
+      enclosed = {
+        x = true,
+        y = true,
+        z = true,
+      },
     }
 
     if liquid[vdata[pos - va.ystride]] then
@@ -248,7 +252,7 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         end
         if not scanned then
           core.log("verbose","[dungeonsplus] failed scan at " .. core.pos_to_string(dungeon) .. ": dimension = " .. dimension)
-          room.enclosed = false
+          room.enclosed[dimension] = false
           bearing.vector[dimension] = dungeon[dimension]
         end
       end
