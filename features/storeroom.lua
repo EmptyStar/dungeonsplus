@@ -5,9 +5,13 @@ local cids = {
   log = core.get_content_id("default:tree"),
   straw = core.get_content_id("farming:straw"),
   wood = core.get_content_id("default:wood"),
-  slab = core.get_content_id("stairs:slab_wood"),
+  slab = nil, -- get slab below after mods loaded
   bottle = core.get_content_id("vessels:glass_bottle"),
 }
+
+core.register_on_mods_loaded(function()
+  cids.slab = core.get_content_id("stairs:slab_wood")
+end)
 
 local vs = vector.subtract
 
