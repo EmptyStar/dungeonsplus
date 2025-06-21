@@ -3,7 +3,7 @@ local cids = {
   bookshelf = core.get_content_id("default:bookshelf"),
   torch = core.get_content_id("default:torch"),
   wood = core.get_content_id("default:wood"),
-  stair = core.get_content_id("stairs:stair_outer_wood"),
+  stair = nil, -- get stair node after mods loaded below
   lamp = core.get_content_id("default:mese_post_light"),
 }
 
@@ -13,6 +13,7 @@ local preserve = {
   [core.get_content_id("default:lava_source")] = true,
 }
 core.register_on_mods_loaded(function()
+  cids.stair = core.get_content_id("stairs:stair_outer_wood")
   for node,def in pairs(core.registered_nodes) do
     if node:find("^stairs:stair_") then
       preserve[core.get_content_id(node)] = true
