@@ -195,13 +195,13 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         min = {
           vector = room.min,
           direction = -1,
-          scan = { -zstride, 0, zstride, ystride },
+          scan = { -zstride + ystride, ystride, zstride + ystride, ystride * 2 },
           distance = 9,
         },
         max = {
           vector = room.max,
           direction = 1,
-          scan = { -zstride, 0, zstride, ystride },
+          scan = { -zstride + ystride, ystride, zstride + ystride, ystride * 2 },
           distance = 9,
         },
       },
@@ -209,13 +209,13 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         min = {
           vector = room.min,
           direction = -ystride,
-          scan = { -1, 1, 0, -zstride, zstride },
+          scan = { 0 },
           distance = 4,
         },
         max = {
           vector = room.max,
           direction = ystride,
-          scan = { -1, 1, 0, -zstride, zstride },
+          scan = { 0 },
           distance = 16,
         },
       },
@@ -223,13 +223,13 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         min = {
           vector = room.min,
           direction = -zstride,
-          scan = { -1, 0, 1, ystride },
+          scan = { -1 + ystride, ystride, 1 + ystride, ystride * 2 },
           distance = 9,
         },
         max = {
           vector = room.max,
           direction = zstride,
-          scan = { -1, 0, 1, ystride },
+          scan = { -1 + ystride, ystride, 1 + ystride, ystride * 2 },
           distance = 9,
         },
       },
