@@ -48,9 +48,6 @@ return {
   conditions = {
     room = {
       function(room)
-        return room.pos.y < 250
-      end,
-      function(room)
         return room.enclosed.y
       end,
       function(room)
