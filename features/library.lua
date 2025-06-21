@@ -83,7 +83,18 @@ return {
     local vdata = data.vdata
     local vparam2 = data.vparam2
 
+    -- Ensure solid floor and ceiling space to place central library pillar
     local size = vs(room.max,room.min)
+    for _,spos in ipairs({ pos, pos + (size.y + 1) * ystride }) do
+      for x = -1, 1 do
+        for z = -1, 1 do
+          if vdata[spos + x + z * zstride - ystride] == cids.air then
+            return false -- do not place pillar over air gaps
+          end
+        end
+      end
+    end
+
     local xmin = 0
     local xmax = size.x
     local ymin = ystride

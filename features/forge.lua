@@ -46,6 +46,15 @@ return {
     local vdata = data.vdata
     local vparam2 = data.vparam2
 
+    -- Ensure solid floor space to place forge
+    for x = -2, 2 do
+      for z = -2, 2 do
+        if vdata[pos + x + z * zstride - ystride] == cids.air then
+          return false -- do not place forge over air gaps
+        end
+      end
+    end
+
     vm:set_data(vdata)
     vm:set_param2_data(vparam2)
     core.place_schematic_on_vmanip(vm,room.pos,dungeonsplus.modpath .. "/schematics/forge.mts",0,nil,true,"place_center_x,place_center_z")

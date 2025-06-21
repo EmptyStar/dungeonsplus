@@ -119,6 +119,15 @@ return {
 
     local size = vs(room.max,room.min)
 
+    -- Ensure solid floor space to place alchemy table
+    for x = -2, 2 do
+      for z = -2, 2 do
+        if vdata[pos + x + z * zstride - ystride] == cids.air then
+          return false -- do not place table over air gaps
+        end
+      end
+    end
+
     -- Place alchemy table
     vm:set_data(vdata)
     vm:set_param2_data(vparam2)
