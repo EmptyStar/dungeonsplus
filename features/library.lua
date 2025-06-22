@@ -34,6 +34,7 @@ local function bookshelf(pos)
       inv:set_stack("books",i,ItemStack("default:book"))
     end
   end
+  bookshelf_on_construct(pos)
   return cids.bookshelf
 end
 

@@ -77,7 +77,7 @@ local function generate_loot(pos)
       items = items + 1
     end
   end
-  meta:set_string("infotext", "Vessels Shelf (" .. items .. " items)")
+  vessel_shelf_on_construct(pos)
 end
 
 return {
