@@ -73,10 +73,15 @@ return {
         local meta = core.get_meta(vlootpos)
         local inv = meta:get_inventory()
         inv:set_stack("fuel",1,ItemStack("default:coal_lump " .. (chance % 8 + 1)))
-        if chance < 10 then
-          inv:set_stack("dst",1,ItemStack("default:steel_ingot " .. (chance % 4 + 1)))
-        elseif chance < 15 then
-          inv:set_stack("dst",1,ItemStack("default:gold_ingot " .. (chance % 3 + 1)))
+        for i = 1, 4 do
+          chance = pcgr:next(1,100)
+          if chance < 20 then
+            inv:set_stack("dst",i,ItemStack("default:bronze_ingot " .. (chance % 3 + 2)))
+          elseif chance < 30 then
+            inv:set_stack("dst",i,ItemStack("default:steel_ingot " .. (chance % 3 + 1)))
+          elseif chance < 35 then
+            inv:set_stack("dst",i,ItemStack("default:gold_ingot " .. (chance % 3 + 1)))
+          end
         end
       end
       furnace_on_timer(vlootpos,1)
