@@ -1,4 +1,5 @@
 local cids = {
+  air = core.CONTENT_AIR,
   cobble = core.get_content_id("default:cobble")
 }
 
