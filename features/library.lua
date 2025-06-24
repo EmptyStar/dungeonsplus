@@ -107,11 +107,11 @@ return {
         for z = zmin, zmax, zstride do
           local center_z = (room.min.z + (z / zstride) == room.pos.z)
           local npos = pos + x + y + z
-          if (x == xmin or x == xmax) and not (z == zmin or z == zmax) and not preserve[vdata[npos]] and vparam2[npos] == 0 then
+          if (x == xmin or x == xmax) and not (z == zmin or z == zmax) and not preserve[vdata[npos]] and vparam2[npos] == 0 and (preserve[vdata[npos - 1]] or preserve[vdata[npos + 1]]) then
             local is_lamp = (y == ylight and center_z)
             vdata[npos] = is_lamp and cids.lamp or bookshelf(va:position(npos))
             vparam2[npos] = is_lamp and 0 or 1
-          elseif (z == zmin or z == zmax) and not (x == xmin or x == xmax) and not preserve[vdata[npos]] and vparam2[npos] == 0 then
+          elseif (z == zmin or z == zmax) and not (x == xmin or x == xmax) and not preserve[vdata[npos]] and vparam2[npos] == 0 and (preserve[vdata[npos - zstride]] or preserve[vdata[npos + zstride]]) then
             vdata[npos] = (y == ylight and center_x) and cids.lamp or bookshelf(va:position(npos))
           elseif center_x and center_z then
             vdata[npos] = cids.wood
