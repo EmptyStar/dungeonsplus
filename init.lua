@@ -7,6 +7,7 @@ dungeonsplus = {
   settings = {
     use_native = core.settings:get_bool("dungeonsplus.use_native",true),
     allow_exposed_decoration = core.settings:get_bool("dungeonsplus.allow_exposed_decoration",false),
+    allow_submerged_decoration = core.settings:get_bool("dungeonsplus.allow_submerged_decoration",false),
   },
   dependencies = (function()
     local deps = {}
@@ -178,6 +179,7 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         y = true,
         z = true,
       },
+      submerged = false,
     }
 
     if liquid[vdata[pos - va.ystride]] then
@@ -246,6 +248,8 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
               bearing.vector[dimension] = dungeon[dimension] + (i / math.abs(bearing.direction))
               scanned = true
               break
+            elseif liquid[cid] then
+              room.submerged = true
             end
           end
           if scanned then
@@ -260,12 +264,16 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
       end
     end
 
-    -- Skip rooms exposed to the sky if exposed room setting is disabled
-    if not dungeonsplus.settings.allow_exposed_decoration
-    and not (room.enclosed.x and room.enclosed.y and room.enclosed.z)
-    and (core.get_natural_light(dungeon,0.5) or 0) > 0 then
-      core.log("action","[dungeonsplus] skipping exposed dungeon room at " .. core.pos_to_string(dungeon))
-      break
+    -- Skip non-enclosed rooms under certain conditions
+    if not (room.enclosed.x and room.enclosed.y and room.enclosed.z) then
+      if not dungeonsplus.settings.allow_submerged_decoration and room.submerged then
+        core.log("action","[dungeonsplus] skipping submerged dungeon room at " .. core.pos_to_string(dungeon))
+        break
+      end
+      if not dungeonsplus.settings.allow_exposed_decoration and (core.get_natural_light(dungeon,0.5) or 0) > 0 then
+        core.log("action","[dungeonsplus] skipping exposed dungeon room at " .. core.pos_to_string(dungeon))
+        break
+      end
     end
 
     -- Decorate room with features
