@@ -6,6 +6,7 @@ dungeonsplus = {
   modpath = core.get_modpath("dungeonsplus"),
   settings = {
     use_native = core.settings:get_bool("dungeonsplus.use_native",true),
+    allow_exposed_decoration = core.settings:get_bool("dungeonsplus.allow_exposed_decoration",false),
   },
   dependencies = (function()
     local deps = {}
@@ -240,7 +241,8 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
         local scanned = false
         for i = bearing.direction, bearing.distance * bearing.direction, bearing.direction do
           for _,offset in ipairs(bearing.scan) do
-            if vdata[pos + i + offset] ~= cids.air then
+            local cid = vdata[pos + i + offset]
+            if cid ~= cids.air and not liquid[cid] then
               bearing.vector[dimension] = dungeon[dimension] + (i / math.abs(bearing.direction))
               scanned = true
               break
@@ -256,6 +258,14 @@ core.register_on_generated(mgdungeons and function(minp, maxp, blockseed)
           bearing.vector[dimension] = dungeon[dimension]
         end
       end
+    end
+
+    -- Skip rooms exposed to the sky if exposed room setting is disabled
+    if not dungeonsplus.settings.allow_exposed_decoration
+    and not (room.enclosed.x and room.enclosed.y and room.enclosed.z)
+    and (core.get_natural_light(dungeon,0.5) or 0) > 0 then
+      core.log("action","[dungeonsplus] skipping exposed dungeon room at " .. core.pos_to_string(dungeon))
+      break
     end
 
     -- Decorate room with features
