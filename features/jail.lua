@@ -1,6 +1,7 @@
 local cids = {
   air = core.CONTENT_AIR,
-  bars = core.get_content_id("xpanes:bar"),
+  bar_flat = core.get_content_id("xpanes:bar_flat"),
+  bar_corner = core.get_content_id("xpanes:bar"),
   bones = core.get_content_id("bones:bones"),
 }
 
@@ -57,6 +58,17 @@ end or function(pos)
   meta:set_string("owner","")
 end
 
+local nodes = {
+  [1] = { cid = cids.bar_flat, param2 = 0 },
+  [2] = { cid = cids.bar_flat, param2 = 0 },
+  [4] = { cid = cids.bar_flat, param2 = 3 },
+  [5] = { cid = cids.bar_corner, param2 = 0 },
+  [6] = { cid = cids.bar_corner, param2 = 0 },
+  [8] = { cid = cids.bar_flat, param2 = 3 },
+  [9] = { cid = cids.bar_corner, param2 = 0 },
+  [10] = { cid = cids.bar_corner, param2 = 0 },
+}
+
 return {
   name = "Jail",
   surfaces = {
@@ -106,17 +118,25 @@ return {
     local ymax = size.y - 1
     local zmin = 0
     local zmax = size.z
+    local mmstate = 0
     for x = xmin, xmax do
+      mmstate = (x == xmin) and bit.bor(mmstate,8) or bit.band(mmstate,7)
+      mmstate = (x == xmax) and bit.bor(mmstate,4) or bit.band(mmstate,11)
       for y = ymin, ymax do
         for z = zmin, zmax do
+          mmstate = (z == zmin) and bit.bor(mmstate,2) or bit.band(mmstate,13)
+          mmstate = (z == zmax) and bit.bor(mmstate,1) or bit.band(mmstate,14)
           local npos = pos + x + y * ystride + z * zstride
           if y == ymin and vdata[npos] == cids.air then
             return false -- do not generate jails in rooms with gaps in the floor
-          elseif x == xmin or x == xmax or z == zmin or z == zmax then
+          elseif mmstate > 0 then
             if stair[vdata[npos]] then
               return false -- do not generate jails against stairs
             elseif vdata[npos] == cids.air then
-              table.insert(gaps,npos)
+              table.insert(gaps,{
+                pos = npos,
+                state = mmstate,
+              })
             end
           elseif y == yfloor and vdata[npos] == cids.air then
             table.insert(bone_zone,npos)
@@ -127,7 +147,9 @@ return {
 
     -- Place bars on gaps
     for _,gap in ipairs(gaps) do
-      vdata[gap] = cids.bars
+      local node = nodes[gap.state]
+      vdata[gap.pos] = node.cid
+      vparam2[gap.pos] = node.param2
     end
 
     -- Place bones somewhere in the room if possible
