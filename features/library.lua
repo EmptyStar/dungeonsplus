@@ -84,7 +84,7 @@ return {
 
     -- Ensure solid floor and ceiling space to place central library pillar
     local size = vs(room.max,room.min)
-    for _,spos in ipairs({ pos, pos + (size.y + 1) * ystride }) do
+    for _,spos in ipairs({ center, center + (size.y + 1) * ystride }) do
       for x = -1, 1 do
         for z = -1, 1 do
           if vdata[spos + x + z * zstride - ystride] == cids.air then
