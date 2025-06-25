@@ -133,10 +133,15 @@ return {
             if stair[vdata[npos]] then
               return false -- do not generate jails against stairs
             elseif vdata[npos] == cids.air then
-              table.insert(gaps,{
+              local gap = {
                 pos = npos,
-                state = mmstate,
-              })
+                node = nodes[mmstate],
+              }
+              if gap.node then
+                table.insert(gaps,gap)
+              else
+                return false -- likely a zero-width room or something weird
+              end
             end
           elseif y == yfloor and vdata[npos] == cids.air then
             table.insert(bone_zone,npos)
@@ -147,9 +152,8 @@ return {
 
     -- Place bars on gaps
     for _,gap in ipairs(gaps) do
-      local node = nodes[gap.state]
-      vdata[gap.pos] = node.cid
-      vparam2[gap.pos] = node.param2
+      vdata[gap.pos] = gap.node.cid
+      vparam2[gap.pos] = gap.node.param2
     end
 
     -- Place bones somewhere in the room if possible
